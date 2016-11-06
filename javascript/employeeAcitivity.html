@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Employee Management</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Optional theme -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" integrity="sha384-rHyoN1iRsVXV4nD0JutlnGaslCJuC7uwjduW9SVrLvRYooPp2bWYgmgJQIXwl/Sp" crossorigin="anonymous">
+
+<!-- Latest compiled and minified JavaScript -->
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
+<script   src="https://code.jquery.com/jquery-3.1.1.min.js"   integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="   crossorigin="anonymous"></script>  
+
+</head>
+<body>
+<div class="jumbotron">
+  <h1>Employee Management</h1>
+</div>
+<div class="panel panel-default">
+  <div class="panel-heading" >
+    <h3 class="panel-title">Current List of Employees</h3>
+    	
+    	<div class="panel-body">
+    	<table class="table">
+    		<thead>
+    	
+    			<tr scope= "row">
+    				<th>Employee Name</th>
+    				<th>Role</th>
+    				<th>Start Date</th>
+    				<th>Months Worked</th>
+    				<th>Monthly Rate</th>
+    				<th>Earnings</th>
+    			</tr>
+    		</thead>
+    		<tbody>
+    			<tr>
+    					<td >Josh</td>
+    					<td >CTO</td>
+    					<td >01/01/10</td>
+    					<td>35</td>
+    					<td >1000</td>
+    					<td>100000</td>
+    			</tr>
+    			<tr>
+    					<td>Dude</td>
+    					<td>CFO</td>
+    					<td>02/04/1998</td>
+    					<td>1000</td>
+    					<td>20000</td>
+    					<td>2e45</td>
+    			</tr>
+
+    		</tbody>
+    		</table>
+ 	 </div>
+  </div>
+</div>
+<div class="panel panel-default">
+  <div class="panel-body" style="background-color: #20315A; color: white;">
+    Add an Employee 
+  </div>
+   <div class="panel-body" style="background-color: white; color: black;">
+  	<form role="form">
+  		<div class="form-group">
+  			<label for="trainName">Employee Name</label>
+  			<input type="text" class="form-control" id="employeeName">
+  		</div>
+  		<div class="form-group">
+  			<label for="destination">Start Date (mm/dd/yy)</label>
+  			  	<input type="text" class="form-control" id="startDate">
+  		</div>
+  		<div class="form-group">
+  			<label for="firstTrainTime">Monthly Rate</label>
+  			<input type="text" class="form-control" id="monthlyRate">
+  		</div>
+  		<div class="form-group">
+  			<label for="frequency">Role</label>
+  			<input type="text" class="form-control" id="role">
+  		</div>
+  		<div type="submit" class="btn btn-default" id="addEmployee">Add Employee</div>
+  		</form>
+  		</div>
+</div>
+<!-- <script type="text/javascript"></script>
+ --><script
+ src="http://code.jquery.com/jquery-3.1.1.min.js"
+ integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+ crossorigin="anonymous"></script>
+<script src="https://www.gstatic.com/firebasejs/3.5.3/firebase.js"></script>
+<script>
+	var config = {
+    apiKey: "AIzaSyDHee_MtDzP5_MP_MicO3ff5qTmotVOQGo",
+    authDomain: "employee-add.firebaseapp.com",
+    databaseURL: "https://employee-add.firebaseio.com",
+    storageBucket: "employee-add.appspot.com",
+    messagingSenderId: "360435460508"
+  };
+  firebase.initializeApp(config);
+  var database = firebase.database();
+
+$("#addEmployee").on('click', function(){
+var employeeName = $("#employeeName").val().trim();
+var startDate = $("#startDate").val().trim();
+var monthlyRate = $("#monthlyRate").val().trim();
+var role = $("#role").val().trim();
+debugger;
+console.log('employeeName', employeeName);
+console.log('startDate', startDate);
+console.log('monthlyRate', monthlyRate);
+console.log('role', role);
+
+database.ref().push({
+	employeeName: employeeName,
+	startDate: startDate,
+	monthlyRate: monthlyRate,
+	role: role,
+
+})
+return false;
+});
+database.ref().on("child_added", function(childSnapshot){
+	console.log(childSnapshot.val());
+	console.log(childSnapshot.val().employeeName);
+	console.log(childSnapshot.val().startDate);
+	console.log(childSnapshot.val().monthlyRate);
+	console.log(childSnapshot.val().role);
+
+	$("#employeeName").html(childSnapshot.val().employeeName);
+	$("#startDate").html(childSnapshot.val().startDate);
+	$("#monthlyRate").html(childSnapshot.val().monthlyRate);
+	$("#role").html(childSnapshot.val().role);
+
+	$("tbody").append("<tr><td>"  +childSnapshot.val().employeeName+"  </td> <td>" +childSnapshot.val().role+" </td><td> "+childSnapshot.val().startDate+" </td><td></td><td>" +childSnapshot.val().monthlyRate+" </td><td></td></tr>")
+})
+
+
+
+</script>
+</body>
+</html>
