@@ -28,7 +28,7 @@ var newTrain = {
 	trainDestination: trainDestination,
 	firstTrainTime: firstTrainTime,
 	frequency: frequency,
-	// away: minutesAway,
+
 }
 
 database.ref().push(newTrain);
@@ -60,6 +60,8 @@ database.ref().on("child_added", function(childSnapshot){
 
 	$("tbody").append("<tr><td>"  +childSnapshot.val().trainName+"  </td> <td>" +childSnapshot.val().trainDestination+" </td><td>" +childSnapshot.val().firstTrainTime+" </td><td> "+childSnapshot.val().frequency+" </td><td></td><td></td></tr>")
 })
+
+//new code from the weekend to help understand the process
 
 var currentTime = moment();
 console.log("CURRENT TIME: " + moment(currentTime).format("hh:mm"));
