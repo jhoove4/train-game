@@ -95,5 +95,6 @@ function getNextArrival(firstTrainTime, frequency){
 			nextArrival: moment(nextTrain).format("hh:mm")
 
 		}
+
 }
 
